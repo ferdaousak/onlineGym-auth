@@ -143,7 +143,7 @@ public class GymController
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping("/user/all")
+	@PostMapping("/user/all")
 	public List<Gymclass> getAllGymsOfUser(@RequestBody UserGymRequest request)
 	{
 		User user = userrepo.findByUsername(request.getUsername());

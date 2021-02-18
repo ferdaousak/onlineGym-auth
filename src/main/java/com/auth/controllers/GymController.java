@@ -59,7 +59,7 @@ public class GymController
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping("/{name}")
+	@GetMapping("/name/{name}")
 	public Gymclass getByName(@PathParam("name") String name)
 	{
 		return gymrepo.findByName(name);
@@ -80,12 +80,14 @@ public class GymController
 	}
 	
 	@CrossOrigin(origins = "*")
-	@DeleteMapping("/delete/{id}")
-	public boolean deleteClass(@PathParam("id") String id)
+	@DeleteMapping("/delete")
+	public boolean deleteClass(@RequestBody GymRequest request )
 	{
 		try
 		{
-			gymrepo.deleteById(id);
+			Gymclass gym = gymrepo.findByName(request.getName());
+			System.out.println(gym);
+			gymrepo.delete(gym);
 		}catch(Exception e)
 		{
 			System.out.println(e);

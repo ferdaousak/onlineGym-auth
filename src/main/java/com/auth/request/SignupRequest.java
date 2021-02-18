@@ -8,8 +8,14 @@ public class SignupRequest
 	private String password;
 	private String email;
 	private Set<String> role;
+	private String userrole = "";
 	    
-	
+	public String getUserrole() {
+		return userrole;
+	}
+	public void setUserrole(String userRole) {
+		this.userrole = userRole;
+	}
 	public Set<String> getRole() {
 		return role;
 	}

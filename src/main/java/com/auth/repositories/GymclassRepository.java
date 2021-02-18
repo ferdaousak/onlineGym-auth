@@ -11,6 +11,8 @@ public interface GymclassRepository extends MongoRepository<Gymclass, String>
 {
 	Gymclass findByName(String name);
 	
+	void deleteByName(String name);
+	
 	List<Gymclass> findByTrainerid(String trainerid);
 	
 }

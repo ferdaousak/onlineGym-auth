@@ -1,7 +1,5 @@
 package com.auth.models;
 
-
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,9 +20,6 @@ public class User
 	private String password;
 	
 	private Set<Role> roles = new HashSet<>();
-	
-	
-	
 	
 	public User(String username, String email, String password) {
 		super();

@@ -14,7 +14,6 @@ public class Role
 	@Indexed(unique=true, direction = IndexDirection.DESCENDING, dropDups= true)
 	private String role;
 
-	
 	public Role() 
 	{
 		super();

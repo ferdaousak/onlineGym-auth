@@ -1,6 +1,8 @@
 package com.auth.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -19,6 +21,7 @@ public class User
 	private String email;
 	private String password;
 	
+	private List<String> Gymsjoined;
 	private Set<Role> roles = new HashSet<>();
 	
 	public User(String username, String email, String password) {
@@ -26,6 +29,7 @@ public class User
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.Gymsjoined = new ArrayList<String>();
 	}
 
 	public String getId() {
@@ -66,6 +70,14 @@ public class User
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public List<String> getGymsjoined() {
+		return Gymsjoined;
+	}
+
+	public void setGymsjoined(List<String> gymsjoined) {
+		Gymsjoined = gymsjoined;
 	}
 	
 	

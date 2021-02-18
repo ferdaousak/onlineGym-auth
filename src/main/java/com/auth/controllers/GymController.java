@@ -1,5 +1,6 @@
 package com.auth.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,6 +106,9 @@ public class GymController
 		 
 			 gym.getUserids().add(user.getId());
 			 
+			 user.getGymsjoined().add(gym.getId());
+			 
+			 userrepo.save(user);
 			 gymrepo.save(gym); 
 		}catch(Exception e)
 		{
@@ -125,6 +129,8 @@ public class GymController
 			 User user = userrepo.findByUsername(request.getUsername());
 			 
 			 gym.getUserids().remove(user.getId());
+			 user.getGymsjoined().remove(gym.getId());
+			 userrepo.save(user);
 			 gymrepo.save(gym);	 
 		}catch(Exception e)
 		{
@@ -132,6 +138,22 @@ public class GymController
 		}
 		
 		return gym;	
+	}
+	
+	@CrossOrigin(origins = "*")
+	@GetMapping("/user/all")
+	public List<Gymclass> getAllGymsOfUser(@RequestBody UserGymRequest request)
+	{
+		User user = userrepo.findByUsername(request.getUsername());
+		List<String> ids = user.getGymsjoined();
+		
+		List<Gymclass> gyms = new ArrayList<Gymclass>();
+		for(String id: ids)
+		{
+			gyms.add(gymrepo.findById(id).get());
+		}
+		
+		return gyms;
 	}
 	
 	

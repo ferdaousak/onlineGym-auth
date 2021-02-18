@@ -25,6 +25,7 @@ import com.auth.request.VideoGymRequest;
 @RequestMapping("/api/videos")
 @CrossOrigin(origins = "*")
 public class VideoController {
+	//just
 
 	@Autowired
 	VideoRepository vidrepo;

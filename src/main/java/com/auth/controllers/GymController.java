@@ -27,9 +27,10 @@ import com.auth.request.VideoGymRequest;
 import com.auth.request.GymRequest;
 
 
+
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/gym")
-@CrossOrigin(origins = "*")
 public class GymController
 {
 	
@@ -50,10 +51,10 @@ public class GymController
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping("/{id}")
-	public Gymclass getById(@PathParam("id") String id)
+	@PostMapping("/id")
+	public Gymclass getById(@RequestBody UserGymRequest request)
 	{
-		Optional<Gymclass> gym = gymrepo.findById(id);
+		Optional<Gymclass> gym = gymrepo.findById(request.getGymid());
 		
 		return gym.get();
 	}
@@ -100,14 +101,20 @@ public class GymController
 	@PostMapping("/add/user")
 	public Gymclass addUserToGym(@RequestBody UserGymRequest request)
 	{
+		System.out.println("request.gymid : " + request.getGymid());
+		System.out.println("request.user :" + request.getUsername());
 		Gymclass gym = null;
 		try
 		{
 			 gym = gymrepo.findById(request.getGymid()).get();
-			 User user = userrepo.findByUsername(request.getUsername());
-		 
-			 gym.getUserids().add(user.getId());
+			 if(gym!=null)
+				 System.out.println("found gym" + gym);
+			 User user = null;
+			 user = userrepo.findByUsername(request.getUsername());
+			 if(user!=null)
+				 System.out.println("found user"+ user);
 			 
+			 gym.getUserids().add(user.getId());
 			 user.getGymsjoined().add(gym.getId());
 			 
 			 userrepo.save(user);
@@ -115,6 +122,8 @@ public class GymController
 		}catch(Exception e)
 		{
 			System.out.println(e);
+			return null;
+			
 		}
 		
 		return gym;
@@ -146,6 +155,7 @@ public class GymController
 	@PostMapping("/user/all")
 	public List<Gymclass> getAllGymsOfUser(@RequestBody UserGymRequest request)
 	{
+		System.out.println("user/all request : id : " + request.getGymid() + " | u :" + request.getUsername());
 		User user = userrepo.findByUsername(request.getUsername());
 		List<String> ids = user.getGymsjoined();
 		
@@ -158,6 +168,34 @@ public class GymController
 		return gyms;
 	}
 	
+	@CrossOrigin(origins = "*")
+	@PostMapping("/trainer/all")
+	public List<Gymclass> getAllGymsOfTrainer(@RequestBody UserGymRequest request)
+	{
+		System.out.println("trainer/all request : id : " + request.getGymid() + " | u :" + request.getUsername());
+		
+		User user = userrepo.findByUsername(request.getUsername());
+		
+		return gymrepo.findByTrainerid(user.getId());
+	}
 	
+	@CrossOrigin(origins = "*")
+	@PostMapping("/users")
+	public List<User> getAllGymUsers(@RequestBody UserGymRequest request)
+	{
+		System.out.println("users request : id : " + request.getGymid());
+		
+		Gymclass gym = gymrepo.findById(request.getGymid()).get();
+		
+		System.out.println(gym);
+		
+		List<User> users= new ArrayList<User>();
+		for(String user_id : gym.getUserids())
+		{
+			users.add(userrepo.findById(user_id).get());
+		}
+		
+		return users;
+	}
 		
 }

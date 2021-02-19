@@ -36,7 +36,7 @@ public class UserController
 	}
 	
 	@CrossOrigin(origins = "*")
-	@PostMapping("/user/getuser")
+	@PostMapping("/user/getuser")// id username
 	public User getbyid(@RequestBody UserRequest request)
 	{
 		return userRepository.findById(request.getId()).get();	

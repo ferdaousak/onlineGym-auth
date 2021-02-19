@@ -20,6 +20,7 @@ import com.auth.repositories.GymclassRepository;
 import com.auth.repositories.VideoRepository;
 import com.auth.request.GymRequest;
 import com.auth.request.VideoGymRequest;
+import com.auth.request.VideoIdRequest;
 
 @RestController
 @RequestMapping("/api/videos")
@@ -41,25 +42,25 @@ public class VideoController {
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping("/{id}")
-	public Video getById(@PathParam("id") String id)
+	@PostMapping("/id")
+	public Video getById(@RequestBody VideoIdRequest request)
 	{
-		return vidrepo.findById(id).get();
+		return vidrepo.findById(request.getId()).get();
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping("/{title}")
-	public Video getByTitle(@PathParam("title") String title)
+	@PostMapping("/title")
+	public Video getByTitle(@RequestBody VideoGymRequest request)
 	{
-		return vidrepo.findByTitle(title);
+		return vidrepo.findByTitle(request.getTitle());
 	}
 	
 	@CrossOrigin(origins = "*")
-	@GetMapping("/gym/all")
-	public List<Video> getAllGymVideos(@RequestBody GymRequest request)
+	@PostMapping("/gym/all")
+	public List<Video> getAllGymVideos(@RequestBody VideoIdRequest request)
 	{
-		
-		Gymclass gym = gymrepo.findByName(request.getName());
+		System.out.println("request.id (/gym/all):" + request.getId());
+		Gymclass gym = gymrepo.findById(request.getId()).get();
 		
 		return vidrepo.findByGymclassid(gym.getId());
 	}
